@@ -19,6 +19,8 @@ Appic establishes robust bridging between **EVM chains** and **ICP** using three
 
 These canisters work together to ensure secure, efficient, and decentralized cross-chain asset transfers.
 
+![Appic bridging overview](./images/overal-diagram.png "Appic bridging overview")
+
 ---
 
 ## 🔒 evm-minter
@@ -59,8 +61,8 @@ The Internet Computer's features eliminate off-chain dependencies, enhancing sec
 
 ### 📄 Integration Guide
 
-- [Deposit Flow:](https://github.com/Appic-Solutions/evm-minter)
-- [Withdrawal Flow:](https://github.com/Appic-Solutions/ledger-suite-manager)
+- [Deposit Flow:](./minter/deposit.md)
+- [Withdrawal Flow:](./minter/withdrawal.md)
 
 ---
 
@@ -78,7 +80,7 @@ Developers and users can create ICP-wrapped tokens for EVM assets supported by a
 
 ### 📄 Integration Guide
 
-- [Twin Token Creation:](https://github.com/Appic-Solutions/evm-minter)
+- [Twin Token Creation:](./lsm/create_twins.md)
 
 ---
 
@@ -100,4 +102,4 @@ By centralizing this information, the **chain-fusion-helper** simplifies bridgin
 
 ### 📄 Integration Guide
 
-- [Get chain fusion data:](./chain-fusion-helper/get_data.md)
+- [Get chain fusion data:](./chain-fusion-helper/chain_fusion_data.md)
