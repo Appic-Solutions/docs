@@ -13,9 +13,9 @@ To effectively use this documentation, you should have:
 
 Appic establishes robust bridging between **EVM chains** and **ICP** using three core canisters:
 
-1. [**evm-minter**](https://github.com/Appic-Solutions/evm-minter)
-2. [**ledger-suite-manager (lsm)**](https://github.com/Appic-Solutions/ledger-suite-manager)
-3. [**chain-fusion-helper**](https://github.com/Appic-Solutions/chain-fusion-helper)
+1. [**evm-minter**](https://github.com/Appic-Solutions/evm-minter) github repository
+2. [**ledger-suite-manager (lsm)**](https://github.com/Appic-Solutions/ledger-suite-manager) github repository
+3. [**chain-fusion-helper**](https://github.com/Appic-Solutions/chain-fusion-helper) github repository
 
 These canisters work together to ensure secure, efficient, and decentralized cross-chain asset transfers.
 
