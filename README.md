@@ -17,6 +17,11 @@ Appic bridges **EVM chains** and **ICP** with three main canisters:
 2. [**ledger-suite-manager (lsm)**](https://github.com/Appic-Solutions/ledger-suite-manager) (GitHub repository)
 3. [**chain-fusion-helper**](https://github.com/Appic-Solutions/chain-fusion-helper) (GitHub repository)
 
+Additionally, Appic provides advanced trading and liquidity solutions:
+
+4. [**smart-routing (quoter)**](https://github.com/Appic-Solutions/smart-routing) - DEX aggregator with cross-chain routing
+5. [**appic-dex**](https://github.com/Appic-Solutions/appic-dex) - Concentrated liquidity DEX on ICP
+
 These canisters work together to ensure secure and decentralized cross-chain transfers.
 
 ![Appic bridging overview](./images/overal-diagram.png "Appic bridging overview")
@@ -95,3 +100,54 @@ The **chain-fusion-helper** centralizes this information for easy access.
 ### 📄 Integration Guide
 
 - [Get Chain Fusion Data](./chain-fusion-helper/chain_fusion_data.md)
+
+---
+
+## 🚀 smart-routing (quoter)
+
+The **smart-routing** system is an advanced DEX aggregator that provides optimal token swap routes across multiple blockchain networks.
+
+### 🔑 Key Features
+
+- **Multi-Protocol Aggregation**: Integrates with Uniswap V2/V3/V4, PancakeSwap, and SushiSwap
+- **Cross-Chain Routing**: Seamless token swaps across different blockchains via ICP bridge
+- **Zero Gas Fees**: Direct ICP DEX routes with no gas costs
+- **Real-time Optimization**: Advanced algorithms for best price discovery
+- **Batch Processing**: Multiple quotes and cross-chain operations in single requests
+
+### 🌐 Supported Networks
+
+- **Ethereum** (Chain ID: 1)
+- **Base** (Chain ID: 8453) 
+- **BSC** (Chain ID: 56)
+- **Arbitrum** (Chain ID: 42161)
+- **Internet Computer** (ICP)
+
+### 📄 Integration Guide
+
+- [Smart Routing Integration](./quoter/smart_routing.md)
+
+---
+
+## 💱 appic-dex
+
+The **appic-dex** is a concentrated liquidity DEX built on the Internet Computer, providing advanced trading features similar to Uniswap V3.
+
+### ✨ Core Capabilities
+
+- **Concentrated Liquidity**: Capital efficient liquidity provision within custom price ranges
+- **Multiple Fee Tiers**: Support for 0.01%, 0.05%, 0.1%, 0.3%, and 1.0% fee structures
+- **Multi-hop Routing**: Complex swap paths across multiple pools
+- **Position Management**: Create, modify, and manage liquidity positions
+- **Real-time Analytics**: Comprehensive data access and historical tracking
+
+### 🛡️ Security Features
+
+- **Principal Guards**: Prevents concurrent operations and double-spending
+- **Memory Safety**: Rust-based implementation with comprehensive error handling
+- **ICRC Integration**: Native Internet Computer token standard support
+- **Event Logging**: Complete audit trail for all operations
+
+### 📄 Integration Guide
+
+- [Appic DEX Integration](./appic-dex/appic_dex_integration.md)
