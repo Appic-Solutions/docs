@@ -16,11 +16,8 @@ Appic bridges **EVM chains** and **ICP** with three main canisters:
 1. [**evm-minter**](https://github.com/Appic-Solutions/evm-minter) (GitHub repository)
 2. [**ledger-suite-manager (lsm)**](https://github.com/Appic-Solutions/ledger-suite-manager) (GitHub repository)
 3. [**chain-fusion-helper**](https://github.com/Appic-Solutions/chain-fusion-helper) (GitHub repository)
-
-Additionally, Appic provides advanced trading and liquidity solutions:
-
-4. [**smart-routing (quoter)**](https://github.com/Appic-Solutions/smart-routing) - DEX aggregator with cross-chain routing
-5. [**appic-dex**](https://github.com/Appic-Solutions/appic-dex) - Concentrated liquidity DEX on ICP
+4. [**smart-routing (quoter)**](https://github.com/Appic-Solutions/smart-routing) (GitHub repository)
+5. [**appic-dex**](https://github.com/Appic-Solutions/appic-dex) (GitHub repository)
 
 These canisters work together to ensure secure and decentralized cross-chain transfers.
 
