@@ -1,0 +1,38 @@
+# Ledger Suite Manager (LSM)
+
+The **Ledger Suite Manager** is responsible for creating and managing twin tokens on the Internet Computer Protocol for EVM-based assets. It automates the creation of complete ledger suites including the main ledger, index canister, and archive canister.
+
+## Overview
+
+The LSM handles:
+
+1. **Twin Token Creation** - Creates ICP versions of EVM tokens
+2. **Ledger Suite Management** - Manages complete ledger infrastructure
+3. **Upgrade Management** - Handles canister upgrades and maintenance
+4. **Fee Collection** - Processes creation fees and payments
+
+## Key Components
+
+- **Ledger Canister** - Manages token balances and transfers
+- **Index Canister** - Provides transaction indexing and search
+- **Archive Canister** - Stores historical transaction data
+- **Management Logic** - Coordinates creation and upgrades
+
+## Supported Features
+
+- **ERC20 Token Support** - Create ICP versions of any ERC20 token
+- **Automated Setup** - Complete ledger suite deployment
+- **Multi-Chain Support** - Works with tokens from various EVM chains
+- **ICP Payment** - Pay creation fees using ICP tokens
+
+## Creation Process
+
+1. **Parameter Validation** - Verify token details and requirements
+2. **Fee Processing** - Handle ICP payment for creation
+3. **Canister Deployment** - Deploy ledger suite components
+4. **Configuration** - Set up token metadata and parameters
+5. **Registration** - Register with bridge infrastructure
+
+## Next Steps
+
+- [Creating Twin Tokens](create_twins.md) - Complete guide to twin token creation

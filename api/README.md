@@ -1,0 +1,120 @@
+# API Reference
+
+This section provides comprehensive API documentation for all Appic components.
+
+## Component APIs
+
+- **[EVM Minter API](#evm-minter-api)** - Bridge operations and token transfers
+- **[LSM API](#lsm-api)** - Twin token creation and management
+- **[Chain Fusion Helper API](#chain-fusion-helper-api)** - Data queries and transaction lookup
+- **[Smart Routing API](#smart-routing-api)** - DEX aggregation and cross-chain routing
+- **[Appic DEX API](#appic-dex-api)** - DEX operations and liquidity management
+
+## EVM Minter API
+
+### Deposit Operations
+- `deposit(token, amount, principal, subaccount)` - Lock tokens on EVM chain
+- `get_deposit_events()` - Retrieve deposit transaction history
+- `get_minter_info()` - Get minter configuration and status
+
+### Withdrawal Operations
+- `withdraw_native_token(recipient, amount)` - Withdraw native tokens to EVM
+- `withdraw_erc20(erc20_ledger_id, recipient, amount)` - Withdraw ERC20 tokens
+- `get_withdrawal_requests()` - Check withdrawal status
+
+## LSM API
+
+### Twin Token Management
+- `add_erc20_ls(AddErc20Arg)` - Create new twin token
+- `get_lsm_info()` - Get LSM configuration and fees
+- `all_twins_canister_ids()` - List all managed twin tokens
+
+### Ledger Suite Operations
+- `upgrade_ledger_suite()` - Upgrade canister versions
+- `get_managed_canisters()` - List managed canister instances
+
+## Chain Fusion Helper API
+
+### Transaction Queries
+- `get_transaction(GetTxParams)` - Get specific transaction
+- `get_txs_by_address(address)` - Get transactions by EVM address
+- `get_txs_by_principal(principal)` - Get transactions by ICP principal
+
+### Token Information
+- `get_bridge_pairs()` - Get bridgeable token pairs
+- `get_evm_token(chain_id, address)` - Get EVM token details
+- `get_icp_token(ledger_id)` - Get ICP token details
+- `get_icp_tokens()` - List all ICP tokens with prices
+
+## Smart Routing API
+
+### Quote Operations
+- `GET /api/quote` - Get best single-chain quote
+- `GET /api/quote/cross-chain` - Get cross-chain quote
+- `GET /api/quote/compare` - Compare routing options
+- `POST /api/quote/batch` - Batch quote processing
+
+### ICP Integration
+- `GET /api/icp/quote` - Get ICP-only quote
+- `GET /api/icp/pools` - Get ICP pool information
+- `GET /api/icp/tokens` - List supported ICP tokens
+
+### System Information
+- `GET /health` - System health check
+- `GET /api/quote/protocols` - Available protocols
+- `GET /api/quote/health` - Detailed service status
+
+## Appic DEX API
+
+### Pool Management
+- `create_pool(CreatePoolArgs)` - Create new liquidity pool
+- `get_pool(PoolId)` - Get pool state and statistics
+- `get_pools()` - List all available pools
+
+### Trading Operations
+- `swap(SwapArgs)` - Execute token swap
+- `quote(QuoteArgs)` - Get swap quote without execution
+- `user_balance(token, user)` - Check user token balance
+
+### Liquidity Management
+- `mint_position(MintPositionArgs)` - Create liquidity position
+- `increase_liquidity(IncreaseLiquidityArgs)` - Add liquidity to position
+- `decrease_liquidity(DecreaseLiquidityArgs)` - Remove liquidity from position
+- `burn(BurnArgs)` - Remove entire position
+- `collect_fees(CollectFeesArgs)` - Collect accumulated fees
+
+### Analytics
+- `get_position(PositionKey)` - Get position details
+- `get_positions_by_owner(principal)` - List user positions
+- `get_events(start, length)` - Get transaction events
+- `get_pool_history(PoolId)` - Get pool performance data
+
+## Error Handling
+
+All APIs use consistent error handling patterns:
+
+```candid
+type Result<T> = variant {
+  Ok: T;
+  Err: ErrorType;
+};
+```
+
+Common error types include:
+- `InsufficientBalance` - Insufficient token balance
+- `InsufficientAllowance` - Insufficient token approval
+- `InvalidAmount` - Invalid amount parameter
+- `PoolNotInitialized` - Pool does not exist
+- `TemporarilyUnavailable` - Service temporarily unavailable
+
+## Rate Limits
+
+- **Smart Routing API**: 100 requests per minute per IP
+- **Canister Calls**: Limited by IC network capacity
+- **Batch Operations**: Maximum 10 operations per batch
+
+## Authentication
+
+- **Canister Calls**: Authenticated via IC identity
+- **HTTP APIs**: No authentication required for read operations
+- **Principal Verification**: Required for write operations

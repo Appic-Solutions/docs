@@ -1,0 +1,64 @@
+{
+  "title": "Appic Documentation",
+  "author": "Appic Solutions",
+  "description": "Complete guide to Appic's cross-chain bridging solution connecting EVM chains and Internet Computer Protocol",
+  "language": "en",
+  "gitbook": "3.2.3",
+  "root": ".",
+  "structure": {
+    "readme": "README.md",
+    "summary": "SUMMARY.md"
+  },
+  "plugins": [
+    "search",
+    "sharing",
+    "fontsettings",
+    "theme-default",
+    "highlight",
+    "lunr",
+    "prism",
+    "github",
+    "edit-link",
+    "back-to-top-button",
+    "expandable-chapters",
+    "copy-code-button"
+  ],
+  "pluginsConfig": {
+    "github": {
+      "url": "https://github.com/Appic-Solutions/"
+    },
+    "edit-link": {
+      "base": "https://github.com/Appic-Solutions/appic-docs/edit/main",
+      "label": "Edit This Page"
+    },
+    "sharing": {
+      "facebook": false,
+      "twitter": true,
+      "google": false,
+      "weibo": false,
+      "instapaper": false,
+      "vk": false,
+      "all": [
+        "facebook",
+        "google",
+        "twitter",
+        "weibo",
+        "instapaper"
+      ]
+    },
+    "fontsettings": {
+      "theme": "white",
+      "family": "sans",
+      "size": 2
+    },
+    "prism": {
+      "css": [
+        "prismjs/themes/prism-okaidia.css"
+      ]
+    }
+  },
+  "variables": {
+    "version": "1.0.0",
+    "company": "Appic Solutions"
+  }
+}

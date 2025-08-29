@@ -1,0 +1,227 @@
+# Architecture
+
+This section provides detailed architectural information about the Appic ecosystem and how all components work together.
+
+## System Overview
+
+Appic is a comprehensive cross-chain bridging solution that connects EVM chains with the Internet Computer Protocol (ICP). The architecture is designed for security, scalability, and decentralization.
+
+## Core Architecture
+
+```
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│   EVM Chains    │    │  Internet       │    │   User          │
+│                 │    │  Computer       │    │   Interfaces    │
+│ • Ethereum      │    │                 │    │                 │
+│ • BSC           │◄──►│ • EVM Minter    │◄──►│ • Web Apps      │
+│ • Base          │    │ • LSM           │    │ • Mobile Apps   │
+│ • Arbitrum      │    │ • Chain Helper  │    │ • DeFi Protocols│
+│                 │    │ • Quoter        │    │                 │
+└─────────────────┘    │ • Appic DEX     │    └─────────────────┘
+                       └─────────────────┘
+```
+
+## Component Architecture
+
+### EVM Minter
+The minter uses a hub-and-spoke model where each EVM chain connects to a central ICP canister:
+
+```
+EVM Chain A ──┐
+EVM Chain B ──┼──► EVM Minter Canister ──► Twin Token Ledgers
+EVM Chain C ──┘
+```
+
+**Key Features:**
+- Threshold ECDSA for secure signing
+- Event-driven architecture for deposit/withdrawal tracking
+- Automatic refund mechanisms for failed transactions
+
+### Ledger Suite Manager (LSM)
+Manages the lifecycle of twin token ledger suites:
+
+```
+ERC20 Token → LSM → Ledger Suite Creation
+                 ├── Ledger Canister
+                 ├── Index Canister
+                 └── Archive Canister
+```
+
+### Chain Fusion Helper
+Aggregates data from all components:
+
+```
+┌─────────────────┐
+│ Data Collection │
+├─────────────────┤
+│ • Bridge Txns   │
+│ • Token Info    │
+│ • Price Data    │
+│ • Statistics    │
+└─────────────────┘
+        │
+        ▼
+┌─────────────────┐
+│ Query Interface │
+├─────────────────┤
+│ • REST APIs     │
+│ • Canister APIs │
+│ • Real-time     │
+└─────────────────┘
+```
+
+### Smart Routing (Quoter)
+Multi-layer routing optimization:
+
+```
+User Request
+    │
+    ▼
+┌─────────────────┐
+│ Route Discovery │
+├─────────────────┤
+│ • EVM DEXs      │
+│ • Cross-chain   │
+│ • ICP DEX       │
+└─────────────────┘
+    │
+    ▼
+┌─────────────────┐
+│ Optimization    │
+├─────────────────┤
+│ • Price Impact  │
+│ • Gas Costs     │
+│ • Time          │
+└─────────────────┘
+```
+
+### Appic DEX
+Concentrated liquidity AMM on ICP:
+
+```
+┌─────────────────┐
+│ Trading Pools   │
+├─────────────────┤
+│ • Multiple Fees │
+│ • Tick System   │
+│ • Concentrated  │
+│   Liquidity     │
+└─────────────────┘
+```
+
+## Security Architecture
+
+### Multi-Layer Security
+1. **Canister Level**: IC's secure execution environment
+2. **Cryptographic**: Threshold ECDSA for signing
+3. **Application**: Principal guards and access controls
+4. **Network**: Decentralized validation
+
+### Threat Model
+- **Byzantine Actors**: Protected by threshold signatures
+- **Network Attacks**: Mitigated by decentralized infrastructure  
+- **Smart Contract Bugs**: Comprehensive testing and audits
+- **Economic Attacks**: Slippage protection and fee mechanisms
+
+## Data Flow
+
+### Deposit Flow
+```
+1. User → EVM Helper Contract
+2. Helper Contract → Lock Tokens
+3. Event Emission → RPC Collection
+4. RPC Collection → Minter Canister
+5. Minter Canister → Mint Twin Tokens
+6. Twin Tokens → User ICP Account
+```
+
+### Withdrawal Flow
+```
+1. User → Approve Twin Tokens
+2. User → Call Withdrawal Function
+3. Minter → Burn Twin Tokens
+4. Minter → Sign EVM Transaction
+5. EVM Transaction → Unlock Original Tokens
+6. Original Tokens → User EVM Account
+```
+
+### Cross-Chain Swap Flow
+```
+1. User → Quoter Request
+2. Quoter → Route Optimization
+3. Route → Multi-step Execution:
+   a. EVM Swap → Bridgeable Token
+   b. Bridge → ICP
+   c. ICP → Target Bridgeable Token
+   d. Bridge → Target EVM
+   e. Target EVM → Final Token
+```
+
+## Performance Characteristics
+
+### Throughput
+- **Bridge Operations**: ~100 TPS per chain
+- **DEX Swaps**: ~1000 TPS on ICP
+- **Query Operations**: ~10,000 QPS
+
+### Latency
+- **Same-chain Swaps**: <500ms
+- **Cross-chain Swaps**: 30 seconds - 3 minutes
+- **Bridge Operations**: 30 seconds - 3 minutes
+
+### Scalability
+- **Horizontal**: Add more EVM chains
+- **Vertical**: IC subnet scaling
+- **Caching**: Multi-layer caching for queries
+
+## Deployment Architecture
+
+### Development Environment
+```
+Local Replica → Testing → Staging → Production
+     │              │         │         │
+     ▼              ▼         ▼         ▼
+   dfx          IC Testnet  IC Testnet  IC Mainnet
+```
+
+### Canister Management
+- **Upgrades**: Coordinated canister upgrades
+- **Monitoring**: Health checks and metrics
+- **Backup**: State backup and recovery procedures
+
+## Integration Patterns
+
+### Frontend Integration
+```javascript
+// IC Agent for canister calls
+import { Actor, HttpAgent } from "@dfinity/agent";
+
+// Web3 for EVM interactions  
+import Web3 from "web3";
+
+// Combined bridge operations
+const bridge = new AppicBridge(agent, web3);
+```
+
+### Backend Integration
+```rust
+// Canister-to-canister calls
+let result: CallResult<()> = call(
+    Principal::from_text("canister-id"),
+    "method_name",
+    (args,)
+).await;
+```
+
+## Future Architecture
+
+### Planned Enhancements
+1. **More EVM Chains** - Polygon, Avalanche, etc.
+2. **Bitcoin Integration** - ckBTC support
+3. **Advanced Routing** - AI-powered optimization
+4. **Governance** - DAO-based upgrades
+
+### Scalability Roadmap
+1. **Subnet Scaling** - Dedicated subnets for components
+2. **Sharding** - Horizontal partitioning of data
+3. **Layer 2** - Integration with L2 solutions

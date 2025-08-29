@@ -1,0 +1,303 @@
+# Troubleshooting
+
+This section provides solutions to common issues you might encounter when using Appic components.
+
+## Common Issues
+
+### Bridge Operations
+
+#### Deposit Issues
+
+**Problem**: Deposit transaction confirmed but no twin tokens received
+**Solutions**:
+1. Check if the deposit event was properly logged
+2. Verify the principal parameter was correctly formatted
+3. Wait for the minting timer (up to 5 minutes)
+4. Check if the token is supported for bridging
+
+```bash
+# Check deposit events
+dfx canister call chain-fusion-helper get_txs_by_address "(\"your-evm-address\")"
+
+# Verify minter status
+dfx canister call evm-minter get_minter_info "()"
+```
+
+**Problem**: ERC20 deposit fails with "insufficient allowance"
+**Solutions**:
+1. Increase token allowance for the helper contract
+2. Check if the allowance was set for the correct contract address
+3. Ensure the approval transaction was confirmed
+
+```solidity
+// Increase allowance
+token.approve(helperContract, amount);
+```
+
+#### Withdrawal Issues
+
+**Problem**: Withdrawal fails with "insufficient allowance"
+**Solutions**:
+1. Approve the minter canister to spend your twin tokens
+2. Check if you have sufficient balance
+3. Verify the approval amount covers withdrawal + fees
+
+```bash
+# Approve twin tokens
+dfx canister call twin-token-ledger icrc2_approve \
+"(record { amount = 1_000_000_000; spender = record { owner = principal \"minter-canister-id\"; } })"
+```
+
+**Problem**: Withdrawal stuck in processing
+**Solutions**:
+1. Check withdrawal request status
+2. Verify gas prices on target EVM chain
+3. Wait for automatic retry (up to 1 hour)
+
+```bash
+# Check withdrawal status  
+dfx canister call evm-minter get_withdrawal_requests "()"
+```
+
+### Smart Routing Issues
+
+#### Quote Problems
+
+**Problem**: No routes found for token pair
+**Solutions**:
+1. Verify token addresses are correct
+2. Check if tokens have sufficient liquidity
+3. Try different amount values
+4. Enable ICP routes with `includeICP=true`
+
+```bash
+# Test with different parameters
+curl "https://quoter.appicdao.com/api/quote?tokenIn=0x...&tokenOut=0x...&amountIn=1000000&includeICP=true"
+```
+
+**Problem**: Cross-chain quotes failing
+**Solutions**:
+1. Verify both chains are supported
+2. Check if token pair is bridgeable
+3. Ensure amount meets minimum requirements
+4. Verify network connectivity
+
+```bash
+# Check supported pairs
+curl "https://quoter.appicdao.com/api/quote/cross-chain/supported-pairs"
+```
+
+#### API Issues
+
+**Problem**: Request timeout errors
+**Solutions**:
+1. Reduce request complexity
+2. Use specific chain IDs
+3. Implement retry logic
+4. Check API status
+
+```bash
+# Check API health
+curl "https://quoter.appicdao.com/health"
+```
+
+### Appic DEX Issues
+
+#### Pool Operations
+
+**Problem**: Pool creation fails
+**Solutions**:
+1. Verify tokens are different
+2. Check if pool already exists
+3. Ensure valid fee tier (100, 500, 1000, 3000, 10000)
+4. Validate initial price parameter
+
+```bash
+# Check if pool exists
+dfx canister call appic-dex get_pool "(record { fee = 3000; token0 = principal \"...\"; token1 = principal \"...\" })"
+```
+
+**Problem**: Liquidity position creation fails
+**Solutions**:
+1. Approve both tokens for the DEX
+2. Verify tick range is valid
+3. Check if ticks are aligned with tick spacing
+4. Ensure sufficient token balance
+
+```bash
+# Check token approvals
+dfx canister call token-canister icrc2_allowance \
+"(record { account = record { owner = principal \"your-principal\" }; spender = record { owner = principal \"dex-canister\" } })"
+```
+
+#### Trading Issues
+
+**Problem**: Swap fails with "slippage exceeded"
+**Solutions**:
+1. Increase slippage tolerance
+2. Reduce swap amount
+3. Check price impact
+4. Retry with current market price
+
+```bash
+# Get current quote
+dfx canister call appic-dex quote "(variant { QuoteExactInputSingleParams = record { ... } })"
+```
+
+### LSM Issues
+
+#### Twin Token Creation
+
+**Problem**: Twin token creation fails
+**Solutions**:
+1. Ensure sufficient ICP balance for fees
+2. Verify token contract exists and is valid
+3. Check if twin token already exists
+4. Validate token metadata format
+
+```bash
+# Check ICP balance
+dfx canister call icp-ledger icrc1_balance_of "(record { owner = principal \"your-principal\" })"
+
+# Check if twin already exists
+dfx canister call lsm all_twins_canister_ids "()"
+```
+
+**Problem**: Twin token creation takes too long
+**Solutions**:
+1. Wait up to 10 minutes for completion
+2. Check creation status periodically
+3. Verify network connectivity
+4. Contact support if stuck over 30 minutes
+
+### Chain Fusion Helper Issues
+
+#### Data Queries
+
+**Problem**: Transaction not found
+**Solutions**:
+1. Wait for data synchronization (up to 2 minutes)
+2. Verify transaction parameters
+3. Check if transaction was successful on chain
+4. Try different search parameters
+
+```bash
+# Search by multiple methods
+dfx canister call chain-fusion-helper get_transaction \
+"(record { chain_id = 56; search_param = variant { TxHash = \"0x...\" } })"
+```
+
+**Problem**: Outdated token prices
+**Solutions**:
+1. Check last update timestamp
+2. Verify price feed connectivity
+3. Use alternative price sources
+4. Report persistent issues
+
+## Error Codes Reference
+
+### Common Error Types
+
+| Error | Description | Solution |
+|-------|-------------|----------|
+| `InsufficientBalance` | Not enough tokens | Check balance and add funds |
+| `InsufficientAllowance` | Token approval too low | Increase allowance |
+| `PoolNotInitialized` | Pool doesn't exist | Create pool or use existing one |
+| `InvalidAmount` | Invalid amount parameter | Use valid positive amount |
+| `TemporarilyUnavailable` | Service unavailable | Retry later or check status |
+| `LockedPrincipal` | Concurrent operation | Wait and retry |
+| `SlippageFailed` | Price moved too much | Increase slippage tolerance |
+
+### HTTP Status Codes
+
+| Code | Status | Meaning | Action |
+|------|--------|---------|---------|
+| 200 | Success | Request completed | Continue |
+| 400 | Bad Request | Invalid parameters | Fix parameters |
+| 404 | Not Found | Resource not found | Check resource exists |
+| 408 | Timeout | Request timed out | Retry or reduce complexity |
+| 429 | Rate Limited | Too many requests | Slow down requests |
+| 503 | Service Unavailable | Service down | Check status page |
+
+## Debugging Tools
+
+### Network Diagnostics
+```bash
+# Check IC network status
+dfx ping ic
+
+# Verify canister status  
+dfx canister status --network ic canister-id
+
+# Check EVM node connectivity
+curl -X POST https://bsc-dataseed.binance.org/ \
+-H "Content-Type: application/json" \
+-d '{"jsonrpc":"2.0","method":"eth_blockNumber","params":[],"id":1}'
+```
+
+### Transaction Debugging
+```bash
+# Get detailed transaction info
+dfx canister call chain-fusion-helper get_transaction \
+"(record { chain_id = 56; search_param = variant { TxHash = \"0x...\" } })"
+
+# Check event logs
+dfx canister call appic-dex get_events "(record { start = 0; length = 100 })"
+```
+
+### Balance Verification
+```bash
+# Check ICP balance
+dfx canister call icp-ledger icrc1_balance_of \
+"(record { owner = principal \"your-principal\" })"
+
+# Check twin token balance
+dfx canister call twin-token-ledger icrc1_balance_of \
+"(record { owner = principal \"your-principal\" })"
+
+# Check EVM token balance (Web3)
+const balance = await tokenContract.balanceOf(userAddress);
+```
+
+## Getting Help
+
+### Support Channels
+- **GitHub Issues**: Report bugs and feature requests
+- **Documentation**: Check component-specific guides
+- **Community**: Internet Computer developer forums
+
+### Information to Include
+When reporting issues, please provide:
+1. **Component**: Which Appic component is affected
+2. **Network**: Which blockchain network
+3. **Transaction**: Transaction hashes or IDs
+4. **Error Messages**: Complete error messages
+5. **Steps**: Steps to reproduce the issue
+6. **Environment**: Browser, dfx version, etc.
+
+### Emergency Procedures
+For critical issues:
+1. **Stop Operations**: Avoid further transactions
+2. **Document Issue**: Save all relevant information
+3. **Contact Support**: Report through official channels
+4. **Monitor Status**: Check status pages for updates
+
+## Prevention Best Practices
+
+### Before Operations
+1. **Test Small**: Start with small amounts
+2. **Verify Parameters**: Double-check all parameters
+3. **Check Balances**: Ensure sufficient balances
+4. **Monitor Network**: Check network status
+
+### During Operations
+1. **Save Transaction IDs**: Keep record of all transactions
+2. **Monitor Progress**: Watch for confirmations
+3. **Be Patient**: Allow time for processing
+4. **Don't Retry**: Avoid duplicate operations
+
+### After Operations
+1. **Verify Completion**: Confirm operations succeeded
+2. **Check Balances**: Verify balance changes
+3. **Save Records**: Keep transaction records
+4. **Report Issues**: Report any problems encountered
