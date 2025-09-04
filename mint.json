@@ -1,0 +1,45 @@
+{
+  "$schema": "https://mintlify.com/schema.json",
+  "name": "Appic DAO",
+  "favicon": "/favicon.ico",
+  "colors": {
+    "primary": "#0D9373",
+    "light": "#07C983", 
+    "dark": "#0D9373"
+  },
+  "navigation": [
+    {
+      "group": "Getting Started",
+      "pages": ["introduction"]
+    },
+    {
+      "group": "Core Components", 
+      "pages": [
+        "minter/README",
+        "minter/deposit", 
+        "minter/withdrawal",
+        "lsm/README",
+        "lsm/create_twins",
+        "chain-fusion-helper/README",
+        "chain-fusion-helper/chain_fusion_data"
+      ]
+    },
+    {
+      "group": "Advanced Features",
+      "pages": [
+        "quoter/README",
+        "quoter/smart_routing",
+        "appic-dex/README", 
+        "appic-dex/appic_dex_integration"
+      ]
+    },
+    {
+      "group": "Resources", 
+      "pages": [
+        "api/README",
+        "architecture/README",
+        "troubleshooting/README"
+      ]
+    }
+  ]
+}

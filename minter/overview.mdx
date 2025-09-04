@@ -1,0 +1,103 @@
+# 🔒 EVM Minter
+
+The **EVM Minter** is the core bridging component that enables secure token transfers between EVM chains and the Internet Computer (ICP). It works by locking tokens on the EVM side and minting corresponding wrapped tokens on ICP.
+
+## How It Works
+
+<Steps>
+  <Step title="Lock Tokens">
+    Tokens are locked in a smart contract on the EVM chain
+  </Step>
+  <Step title="Validation">
+    The transaction is validated using threshold ECDSA signing
+  </Step>
+  <Step title="Mint Wrapped Tokens">
+    Equivalent wrapped tokens are minted on the ICP chain
+  </Step>
+  <Step title="Transfer Complete">
+    User receives wrapped tokens in their ICP wallet
+  </Step>
+</Steps>
+
+## Use Cases
+
+### 1. Deposit (Lock → Mint)
+
+<CardGroup cols={2}>
+  <Card title="Native Tokens" icon="ethereum">
+    Convert native tokens like ETH, BNB into wrapped versions (icETH, icBNB)
+  </Card>
+  <Card title="ERC20 Tokens" icon="coins">
+    Convert ERC20 tokens like USDT, USDC into wrapped versions (icUSDT, icUSDC)  
+  </Card>
+</CardGroup>
+
+### 2. Withdrawal (Burn → Unlock)
+
+<CardGroup cols={2}>
+  <Card title="Burn Wrapped Tokens" icon="fire">
+    Wrapped tokens (icETH, icBNB) are burned on ICP
+  </Card>
+  <Card title="Unlock Original Tokens" icon="unlock">
+    Original tokens (ETH, BNB) are unlocked on the EVM chain
+  </Card>
+</CardGroup>
+
+## Security Features
+
+<AccordionGroup>
+  <Accordion title="EVM RPC Canister">
+    Reliable communication between ICP and EVM chains without external dependencies
+  </Accordion>
+  
+  <Accordion title="Threshold ECDSA Signing">
+    Cryptographic validation ensures only legitimate transactions are processed
+  </Accordion>
+  
+  <Accordion title="Automatic Refunds">
+    Failed transactions are automatically refunded to prevent asset loss
+  </Accordion>
+  
+  <Accordion title="No Off-Chain Dependencies">
+    Fully decentralized operation without relying on external services
+  </Accordion>
+</AccordionGroup>
+
+## Supported Networks
+
+The EVM Minter supports bridging across multiple major networks:
+
+| Network | Chain ID | Native Token | Status |
+|---------|----------|--------------|---------|
+| Ethereum | 1 | ETH | ✅ Active |
+| Base | 8453 | ETH | ✅ Active |
+| BSC | 56 | BNB | ✅ Active |
+| Arbitrum | 42161 | ETH | ✅ Active |
+
+## Integration Guides
+
+<CardGroup cols={2}>
+  <Card title="Deposit Flow" icon="arrow-down" href="/minter/deposit">
+    Learn how to deposit tokens from EVM chains to ICP
+  </Card>
+  <Card title="Withdrawal Flow" icon="arrow-up" href="/minter/withdrawal">
+    Learn how to withdraw tokens from ICP back to EVM chains
+  </Card>
+</CardGroup>
+
+## Technical Details
+
+### Smart Contract Architecture
+
+- **Vault Contract**: Holds locked EVM tokens
+- **Minter Canister**: Manages minting/burning of wrapped tokens
+- **Helper Contract**: Facilitates transaction processing
+
+### Token Standards
+
+- **EVM Side**: ERC20/Native tokens
+- **ICP Side**: ICRC-1/ICRC-2 compliant wrapped tokens
+
+<Warning>
+  Always verify contract addresses and canister IDs before initiating transfers. Use official Appic documentation and interfaces only.
+</Warning>

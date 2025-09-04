@@ -1,0 +1,144 @@
+# 🛠️ Introduction
+
+Welcome to the **Appic** documentation! Appic is a bridging solution that connects Ethereum Virtual Machine (EVM) chains and the Internet Computer (ICP). This guide explains Appic's components and how they work together to enable secure and efficient cross-chain asset transfers.
+
+<img
+  className="block dark:hidden"
+  src="/images/overal-diagram.png"
+  alt="Appic bridging overview"
+/>
+<img
+  className="hidden dark:block"
+  src="/images/overal-diagram.png"
+  alt="Appic bridging overview"
+/>
+
+## 📘 Prerequisites
+
+Before diving in, you should know:
+
+- Basics of the **Internet Computer (ICP)**
+- How **EVM chains** work and their functionality
+
+## 🌟 Overview
+
+Appic bridges **EVM chains** and **ICP** with five main components:
+
+<CardGroup cols={2}>
+  <Card
+    title="EVM Minter"
+    icon="bridge"
+    href="/minter/overview"
+  >
+    Enables token transfers by locking tokens on EVM chains and minting wrapped tokens on ICP
+  </Card>
+  <Card
+    title="Ledger Suite Manager (LSM)"
+    icon="database"
+    href="/lsm/overview"
+  >
+    Handles creating twin tokens on ICP for EVM tokens and managing Ledger Suites
+  </Card>
+  <Card
+    title="Chain Fusion Helper"
+    icon="link"
+    href="/chain-fusion-helper/overview"
+  >
+    Provides essential data for bridging operations and transaction management
+  </Card>
+  <Card
+    title="Smart Routing (Quoter)"
+    icon="route"
+    href="/quoter/overview"
+  >
+    Advanced DEX aggregator providing optimal token swap routes across multiple networks
+  </Card>
+</CardGroup>
+
+<CardGroup cols={1}>
+  <Card
+    title="Appic DEX"
+    icon="chart-line"
+    href="/appic-dex/overview"
+  >
+    Concentrated liquidity DEX built on Internet Computer with advanced trading features
+  </Card>
+</CardGroup>
+
+## Key Features
+
+<AccordionGroup>
+  <Accordion title="Secure Cross-Chain Transfers">
+    - **EVM RPC canister** for reliable communication
+    - **Threshold ECDSA signing** for secure validation
+    - No off-chain dependencies required
+    - Automatic refund processing for failed transactions
+  </Accordion>
+  
+  <Accordion title="Comprehensive Token Support">
+    - Lists over 1,000 EVM tokens across major chains
+    - Real-time ICP token prices
+    - Bridgeable tokens between ICP and EVM
+    - Wrapped token tracking via LSM
+  </Accordion>
+  
+  <Accordion title="Advanced Trading">
+    - Multi-protocol DEX aggregation (Uniswap, PancakeSwap, SushiSwap)
+    - Cross-chain routing with zero gas fees on ICP
+    - Concentrated liquidity provision
+    - Real-time price optimization
+  </Accordion>
+</AccordionGroup>
+
+## Supported Networks
+
+<Tabs>
+  <Tab title="Ethereum">
+    **Chain ID**: 1
+    - Full ERC20 token support
+    - Uniswap V2/V3 integration
+    - Native ETH bridging
+  </Tab>
+  <Tab title="Base">
+    **Chain ID**: 8453
+    - Optimized for low fees
+    - Full DeFi protocol support
+    - Native token bridging
+  </Tab>
+  <Tab title="BSC">
+    **Chain ID**: 56
+    - BNB and BEP20 tokens
+    - PancakeSwap integration
+    - High throughput support
+  </Tab>
+  <Tab title="Arbitrum">
+    **Chain ID**: 42161
+    - Layer 2 scaling solution
+    - Reduced transaction costs
+    - Full Ethereum compatibility
+  </Tab>
+  <Tab title="Internet Computer">
+    **ICP Native**
+    - ICRC token standards
+    - Zero gas fees
+    - Concentrated liquidity DEX
+  </Tab>
+</Tabs>
+
+## Getting Started
+
+<CardGroup cols={3}>
+  <Card title="Bridge Assets" icon="bridge" href="/minter/deposit">
+    Learn how to bridge tokens between EVM chains and ICP
+  </Card>
+  <Card title="Create Twin Tokens" icon="coins" href="/lsm/create_twins">
+    Create wrapped ICP tokens for EVM assets
+  </Card>
+  <Card title="Smart Trading" icon="chart-mixed" href="/quoter/smart_routing">
+    Use advanced routing for optimal token swaps
+  </Card>
+</CardGroup>
+
+<Note>
+  All Appic components work together seamlessly to provide a comprehensive cross-chain DeFi experience with maximum security and efficiency.
+</Note>
