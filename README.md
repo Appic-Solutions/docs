@@ -1,6 +1,6 @@
 # 🛠️ Introduction
 
-Welcome to the **Appic** documentation! Appic is a bridging solution that connects Ethereum Virtual Machine (EVM) chains and the Internet Computer (ICP). This guide explains Appic's components and how they work together to enable secure and efficient cross-chain asset transfers.
+Welcome to the **Appic** documentation! Appic is a cross chain infrastructure layer for dapps, builders and projects that connects EVM chains, Bitcoin and Solana.
 
 ### 📘 Prerequisites
 
